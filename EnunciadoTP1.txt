@@ -1,0 +1,21 @@
+*Requerimientos funcionales:
+
+-URLs a recorrer
+-Obtener HTML p/extraer más URLs.
+-Almacene URLs y las schedulee p/analisis.
+-Almacene archivos multimedia (jpg, png, mp3,..) y recursos web (css, js).
+
+*Requerimientos no funcionales:
+
+-Descargas y análisis en paralelo
+-Thread pools para control de concurrencia
+-Monitoreo constante de cantidad:
+    -URLs analizados
+    -Archivos descargados por tipo
+    -Cant de hilos en cada estado (Descargando recurso, Obtenido HTML, Procesando HTML).
+    
+    
+    
+scrapping
+reg exp
+listado historico de url y de imagenes, para no repetir
