@@ -16,6 +16,6 @@
     
     
     
-scrapping
+scraping
 reg exp
 listado historico de url y de imagenes, para no repetir

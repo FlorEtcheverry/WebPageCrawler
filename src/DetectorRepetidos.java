@@ -17,8 +17,8 @@ public class DetectorRepetidos implements Runnable {
 		
 		//lee de la cola un url
 		
-		//se fija en el archivo si ese url ya fue analizado
-		//si no lo fue, lo agrega al archivo y lo pone en la otra cola de urls no repetidos
+		//se fija en el ¿archivo? si ese url ya fue analizado
+		//si no lo fue, lo agrega y lo pone en la otra cola de urls no repetidos
 
 	}
 

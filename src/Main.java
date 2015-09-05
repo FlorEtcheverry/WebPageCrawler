@@ -14,12 +14,14 @@ public class Main {
 		
 		//lee de arch de config cantidad de threads por pool
 		int cantDetectores;
+		int cantGetters;
+		int cantParsers;
 		
 		//crea colas (5)
 		
 		//crea pools con cant leidas		
 		//pool para detector repetidos
-		ExecutorService poolDetectores = Executors.newFixedThreadPool(cantDetectores);
+		//ExecutorService poolDetectores = Executors.newFixedThreadPool(cantDetectores);
 		
 		
 		//pool para html getter
