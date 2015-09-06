@@ -6,51 +6,55 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class Main {
 
 	/**
-	 * @param args
+	 * @param args: url
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
 		//por parámetro viene la primer URL
+		String url = cargarParametroURL(args);
 		
 		//lee de arch de config cantidad de threads por pool
-		int cantDetectores;
-		int cantGetters;
-		int cantParsers;
+		ConfigLoader conf = new ConfigLoader();
 		
 		//crea colas (5)
+		LinkedBlockingQueue<String> colaURLsARevisar = new LinkedBlockingQueue<String>();
+		LinkedBlockingQueue<String> colaURLsRevisados = new LinkedBlockingQueue<String>();
+		LinkedBlockingQueue<String[]> colaHTML = new LinkedBlockingQueue<String[]>();
+		LinkedBlockingQueue<String> colaRecursos = new LinkedBlockingQueue<String>();
+		LinkedBlockingQueue<String> colaMonitor = new LinkedBlockingQueue<String>();
 		
 		//crea pools con cant leidas		
 		//pool para detector repetidos
-		//ExecutorService poolDetectores = Executors.newFixedThreadPool(cantDetectores);
-		
+		ExecutorService poolDetectores = Executors.newFixedThreadPool(conf.getCantDetectoresRep());
 		
 		//pool para html getter
+		ExecutorService poolHtmlGetters = Executors.newFixedThreadPool(conf.getCantGetters());
 		
 		//pool html parser
+		ExecutorService poolParsers = Executors.newFixedThreadPool(conf.getCantParsers());
 		
-		//pool resource downloader (uno por tipo?)
+		//pool resource downloader
+		ExecutorService poolDownloaders = Executors.newFixedThreadPool(conf.getCantDownloaders());
 		
-		//monitor (pool?)
+		//pool monitor
+		ExecutorService poolMonitor = Executors.newSingleThreadExecutor();
 		
-		
-		LinkedBlockingQueue<String[]> cola1 = new LinkedBlockingQueue<String[]>();
-		LinkedBlockingQueue<String> colaRec = new LinkedBlockingQueue<String>();
-		Thread t1 = new Thread(new HtmlGetter(null,cola1,null));
-		Thread t2 = new Thread(new HtmlParser(cola1,null,colaRec,null));
-		Thread t3 = new Thread(new Downloader(colaRec,null));
-		t1.start();
-		t2.start();
-		t3.start();
-		try {
-			t1.join();
-			t2.join();
-			t3.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		//ejecutar threads
+		//poolDetectores.execute(new DetectorRepetidos(colaURLsARevisar, colaURLsRevisados));
+		poolHtmlGetters.execute(new HtmlGetter(colaURLsRevisados, colaHTML, colaMonitor));
+		poolParsers.execute(new HtmlParser(colaHTML, colaURLsARevisar, colaRecursos, colaMonitor));
+		poolDownloaders.execute(new Downloader(colaRecursos, colaMonitor));
+		//poolMonitor.execute(new Monitor());
+
+	}
+	
+	private static String cargarParametroURL(String[] args){
+		System.out.println("Parametro: URL.");
+		if (args.length != 1) {
+			System.out.println("Error, el unico parametro es la URL.");
 		}
-		
+		return args[0];
 	}
 
 }

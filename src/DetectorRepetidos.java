@@ -15,11 +15,20 @@ public class DetectorRepetidos implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		
-		//lee de la cola un url
-		
-		//se fija en el ¿archivo? si ese url ya fue analizado
-		//si no lo fue, lo agrega y lo pone en la otra cola de urls no repetidos
-
+		String url;
+		while (true){
+			try {
+				//lee de la cola un url
+				url = colaURLsEntrantes.take();
+				
+				//se fija en el archivo si ese url ya fue analizado
+				
+				//si no lo fue, lo agrega y lo pone en la otra cola de urls no repetidos
+				
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
-
 }
