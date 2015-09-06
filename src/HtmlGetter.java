@@ -9,10 +9,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class HtmlGetter implements Runnable {
 	
 	private LinkedBlockingQueue<String> colaURLsNuevos;
-	private LinkedBlockingQueue<String> colaHTMLsAnalizar;
+	private LinkedBlockingQueue<String[]> colaHTMLsAnalizar;
 	private LinkedBlockingQueue<String> busMonitor;
 	
-	public HtmlGetter(LinkedBlockingQueue<String> colaEntrante,LinkedBlockingQueue<String> colaSaliente,LinkedBlockingQueue<String> colaEventos){
+	public HtmlGetter(LinkedBlockingQueue<String> colaEntrante,LinkedBlockingQueue<String[]> colaSaliente,LinkedBlockingQueue<String> colaEventos){
 		colaURLsNuevos = colaEntrante;
 		colaHTMLsAnalizar = colaSaliente;
 		busMonitor = colaEventos;
@@ -23,7 +23,7 @@ public class HtmlGetter implements Runnable {
 		// TODO Auto-generated method stub
 		
 		//lee url de la cola
-		String url = "";
+		String url = "http://materias.fi.uba.ar/7526/"; //TODO
 		
 		//obtener string html
 		String html = "";
@@ -46,6 +46,18 @@ public class HtmlGetter implements Runnable {
 		
 		//meter String html a la otra cola
 
+		System.out.println("resultado htmlgetter");
+		System.out.println(html);
+		
+		try {
+			String[] page = new String[2];
+			page[0] = url;
+			page[1] = html;
+			colaHTMLsAnalizar.put(page);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
