@@ -18,43 +18,45 @@ public class Downloader implements Runnable {
 	public Downloader(LinkedBlockingQueue<String> colaEntrante,LinkedBlockingQueue<String> colaEventos){
 		colaRecursos = colaEntrante;
 		busMonitor = colaEventos;
-		savePath = File.separator+"home"+File.separator+"downloaded"+File.separator; //TODO String path = "C:"+File.separator+"hello"+File.separator+"hi.txt";
+		savePath = "downloaded"+File.separator;
 	}
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		
-		//leer cosa a descargar de la cola
 		String recString;
-		try {
-			recString = colaRecursos.take();
-			String[] parts = recString.split("/");
-			String fileName = parts[parts.length-1];
-		
-			//guardar en archivo
-			URL website;
-			website = new URL(recString);
-			ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-			System.out.println(savePath);
-			File dir = new File(savePath);
-			if (!dir.exists()) {
-				dir.mkdirs();
-			}
-			File arch = new File(savePath,fileName); //TODO no anda
-			FileOutputStream fos = new FileOutputStream(arch);
-			fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-			fos.close();
+		while (true){
+			try {
+				//leer cosa a descargar de la cola
+				recString = colaRecursos.take();
+				String[] parts = recString.split("/");
+				String fileName = parts[parts.length-1];
 			
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+				//guardar en archivo
+				URL website;
+				website = new URL(recString);
+				ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+				File dir = new File(savePath);
+				if (!dir.exists()) {
+					dir.mkdirs();
+				}
+				File arch = new File(savePath,fileName);
+				arch.createNewFile();
+				FileOutputStream fos = new FileOutputStream(arch);
+				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+				fos.close();
+				
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

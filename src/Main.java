@@ -41,12 +41,18 @@ public class Main {
 		ExecutorService poolMonitor = Executors.newSingleThreadExecutor();
 		
 		//ejecutar threads
-		//poolDetectores.execute(new DetectorRepetidos(colaURLsARevisar, colaURLsRevisados));
+		poolDetectores.execute(new DetectorRepetidos(colaURLsARevisar, colaURLsRevisados));
 		poolHtmlGetters.execute(new HtmlGetter(colaURLsRevisados, colaHTML, colaMonitor));
 		poolParsers.execute(new HtmlParser(colaHTML, colaURLsARevisar, colaRecursos, colaMonitor));
 		poolDownloaders.execute(new Downloader(colaRecursos, colaMonitor));
-		//poolMonitor.execute(new Monitor());
+		//poolMonitor.execute(new Monitor(colaMonitor));
 
+		try {
+			colaURLsARevisar.put(url);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private static String cargarParametroURL(String[] args){
