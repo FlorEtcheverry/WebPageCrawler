@@ -23,15 +23,13 @@ public class HtmlParser implements Runnable {
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-
+		
 		String[] pagString = new String[2];
 		while (true) {
 			try {
 				// leer string html de la cola
 				pagString = colaStringHtml.take();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				continue;
 			}
@@ -51,7 +49,6 @@ public class HtmlParser implements Runnable {
 					colaURLsEntrantes.put(it.next());
 				}
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	
@@ -66,7 +63,6 @@ public class HtmlParser implements Runnable {
 					colaRecursos.put(it.next());
 				}
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			// avisar al monitor -1 parseando html

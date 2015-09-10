@@ -6,7 +6,6 @@ public class MonitorMessager {
 	private LinkedBlockingQueue<String[]> busMonitor;
 
 	public MonitorMessager(LinkedBlockingQueue<String[]> colaEventos) {
-		// TODO Auto-generated constructor stub
 		busMonitor = colaEventos;
 	}
 	
@@ -17,7 +16,6 @@ public class MonitorMessager {
 		try {
 			busMonitor.put(msj);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

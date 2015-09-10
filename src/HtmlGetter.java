@@ -12,7 +12,11 @@ public class HtmlGetter implements Runnable {
 	private LinkedBlockingQueue<String[]> colaHTMLAnalizar;
 	private LinkedBlockingQueue<String[]> busMonitor;
 	
-	public HtmlGetter(LinkedBlockingQueue<String> colaEntrante,LinkedBlockingQueue<String[]> colaSaliente,LinkedBlockingQueue<String[]> colaEventos){
+	public HtmlGetter(
+		LinkedBlockingQueue<String> colaEntrante,
+		LinkedBlockingQueue<String[]> colaSaliente,
+		LinkedBlockingQueue<String[]> colaEventos
+		) {
 		colaURLsNuevos = colaEntrante;
 		colaHTMLAnalizar = colaSaliente;
 		busMonitor = colaEventos;

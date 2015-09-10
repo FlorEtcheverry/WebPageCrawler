@@ -15,7 +15,12 @@ public class DetectorRepetidos implements Runnable {
 	private LinkedBlockingQueue<String[]> busMonitor;
 	private String fileNameURLs;
 	
-	public DetectorRepetidos(String urlsPath,LinkedBlockingQueue<String> colaEntrante,LinkedBlockingQueue<String> colaSaliente,LinkedBlockingQueue<String[]> colaStatus){
+	public DetectorRepetidos(
+		String urlsPath,
+		LinkedBlockingQueue<String> colaEntrante,
+		LinkedBlockingQueue<String> colaSaliente,
+		LinkedBlockingQueue<String[]> colaStatus
+		){
 		colaURLsEntrantes = colaEntrante;
 		colaURLsNuevos = colaSaliente;
 		busMonitor = colaStatus;
@@ -24,7 +29,6 @@ public class DetectorRepetidos implements Runnable {
 	
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		
 		String url;
 		while (true){
@@ -32,7 +36,6 @@ public class DetectorRepetidos implements Runnable {
 			try {
 				url = colaURLsEntrantes.take();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				continue;
 			}
@@ -47,7 +50,6 @@ public class DetectorRepetidos implements Runnable {
 			try {
 				colaURLsNuevos.put(url);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -75,7 +77,8 @@ public class DetectorRepetidos implements Runnable {
 			
 			//si no lo fue, lo agrega y devuelve false
 			if (!found) {
-				BufferedWriter bw = new BufferedWriter(new FileWriter(arch,true));
+				BufferedWriter bw = 
+					new BufferedWriter(new FileWriter(arch,true));
 				bw.write(url);
 				bw.newLine();
 				bw.close();
@@ -83,11 +86,7 @@ public class DetectorRepetidos implements Runnable {
 			}
 			br.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return res;
 	}

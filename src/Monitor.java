@@ -20,7 +20,6 @@ public class Monitor implements Runnable {
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 
 		ScheduledExecutorService scheduledExSer = Executors
 			.newScheduledThreadPool(1);
@@ -55,7 +54,6 @@ public class Monitor implements Runnable {
 				lock.unlock();
 
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
