@@ -15,7 +15,6 @@ public class StatsSaver implements Runnable {
 	private String fileName;
 
 	public StatsSaver(Lock monitorLock,HashMap<String, Integer> status) {
-		// TODO Auto-generated constructor stub
 		ConfigLoader conf = new ConfigLoader();
 		fileName = conf.getStatsPath();
 		lock = monitorLock;
@@ -24,9 +23,7 @@ public class StatsSaver implements Runnable {
 	}
 
 	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		
+	public void run() {		
 		//toma el lock, guarda el map, suelta el lock y termina
 		
 		BufferedWriter bw;
@@ -58,7 +55,6 @@ public class StatsSaver implements Runnable {
 		    bw.close();
 		    
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

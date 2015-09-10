@@ -76,7 +76,8 @@ public class ConfigLoader {
 			System.out.println("Borrando archivos descargados anteriormente.");
 			deleteFolder(new File(downloadsPath));
 			System.out.println("Archivos borrados.");
-			System.out.println("Borrando archivos de estadísticas y URLs analizadas.");
+			System.out.println(
+				"Borrando archivos de estadísticas y URLs analizadas.");
 			deleteFolder(new File(statsPath));
 			deleteFolder(new File(urlsPath));
 			System.out.println("Borrado finalizado.");

@@ -25,7 +25,6 @@ public class Downloader implements Runnable {
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 
 		String recString = "";
 		while (true) {
@@ -33,7 +32,6 @@ public class Downloader implements Runnable {
 			try {
 				recString = colaRecursos.take();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				continue;
 			}
@@ -76,11 +74,7 @@ public class Downloader implements Runnable {
 					}
 				}
 			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 			// avisar monitor
 			monitor.restarDescargandoRec();

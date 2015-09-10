@@ -20,15 +20,12 @@ public class HtmlGetter implements Runnable {
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		while (true){
-			
+		while (true) {
 			//lee url de la cola
 			String url;
 			try {
 				url = colaURLsNuevos.take();
 			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 				continue;
 			}
@@ -57,13 +54,8 @@ public class HtmlGetter implements Runnable {
 				colaHTMLAnalizar.put(page);
 				
 			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
