@@ -24,25 +24,28 @@ public class HtmlGetter implements Runnable {
 		while (true){
 			
 			//lee url de la cola
-			String url = "";
+			String url;
 			try {
 				url = colaURLsNuevos.take();
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+				continue;
 			}
+			
+			//avisar al monitor
+			MonitorMessager monitor = new MonitorMessager(busMonitor);
+			monitor.agregarObteniendoHTML();
+			
+			String html = "";
 			try{
-				//avisar al monitor
-				MonitorMessager monitor = new MonitorMessager(busMonitor);
-				monitor.agregarObteniendoHTML();
-				
 				//obtener string html
-				String html = "";
 				URL urlObj = new URL(url);
+				
 				BufferedReader in = new BufferedReader(
 						new InputStreamReader(urlObj.openStream()));
 		        String inputLine;
-		        while ((inputLine = in.readLine()) != null){
+		        while ((inputLine = in.readLine()) != null) {
 		            html = html + inputLine;
 		        }
 		        in.close();
@@ -53,20 +56,19 @@ public class HtmlGetter implements Runnable {
 				page[1] = html;
 				colaHTMLAnalizar.put(page);
 				
-				//avisar al monitor
-				monitor.restarObtenienoHTML();
-				
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				System.out.println("No se pudo obtener el html de "+url);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			//avisar al monitor
+			monitor.restarObtenienoHTML();
 		}
 	}
 

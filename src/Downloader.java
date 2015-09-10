@@ -14,13 +14,14 @@ public class Downloader implements Runnable {
 	private LinkedBlockingQueue<String[]> busMonitor;
 	MonitorMessager monitor;
 
-	public Downloader(String path, LinkedBlockingQueue<String> colaEntrante,
+	public Downloader(
+		String path, LinkedBlockingQueue<String> colaEntrante,
 		LinkedBlockingQueue<String[]> colaEventos) {
-		colaRecursos = colaEntrante;
-		busMonitor = colaEventos;
-		savePath = path + File.separator;
-		monitor = new MonitorMessager(busMonitor);
-	}
+			colaRecursos = colaEntrante;
+			busMonitor = colaEventos;
+			savePath = path + File.separator;
+			monitor = new MonitorMessager(busMonitor);
+		}
 
 	@Override
 	public void run() {
@@ -28,25 +29,30 @@ public class Downloader implements Runnable {
 
 		String recString = "";
 		while (true) {
+			// leer cosa a descargar de la cola
 			try {
-				// leer cosa a descargar de la cola
 				recString = colaRecursos.take();
-				String fileName = recString.replaceAll("/", "_");
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				continue;
+			}
+			String fileName = recString.replaceAll("/", "_");
 
-				// avisar a monitor descargando
-				monitor.agregarDescargandoRec();
+			// avisar a monitor descargando
+			monitor.agregarDescargandoRec();
 
-				// guardar en archivo
-				URL website;
+			// guardar en archivo
+			URL website;
+			try {
 				website = new URL(recString);
 				ReadableByteChannel rbc = 
 					Channels.newChannel(website.openStream());
-
+	
 				MediaFinder media = new MediaFinder(
 					null,
 					"\"" + recString + "\""
 					);
-				
 				String path = savePath;
 				if (media.isImage()) {
 					path = savePath+File.separator+"images"+File.separator;
@@ -69,20 +75,15 @@ public class Downloader implements Runnable {
 						monitor.agregarCSSDescargado();
 					}
 				}
-				// avisar monitor
-				monitor.restarDescargandoRec();
-
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				System.out.println("No se pudo descargar "+recString);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+			// avisar monitor
+			monitor.restarDescargandoRec();
 		}
 	}
 
@@ -101,5 +102,5 @@ public class Downloader implements Runnable {
 			fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 			fos.close();
 			return exist;
-	}
+		}
 }

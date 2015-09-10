@@ -28,21 +28,24 @@ public class DetectorRepetidos implements Runnable {
 		
 		String url;
 		while (true){
+			//lee de la cola un url
 			try {
-				//lee de la cola un url
 				url = colaURLsEntrantes.take();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				continue;
+			}
+			boolean rep = analizarRepetido(url);
 				
-				boolean rep = analizarRepetido(url);
-				
-				if (!rep) {
-					//avisar monitor
-					MonitorMessager monitor = new MonitorMessager(busMonitor);
-					monitor.agregarLinkAnalizado();
-					
-					//poner en la cola
-					colaURLsNuevos.put(url);
-				}
-				
+			if (!rep) {
+				//avisar monitor
+				MonitorMessager monitor = new MonitorMessager(busMonitor);
+				monitor.agregarLinkAnalizado();
+			}
+			//poner en la cola
+			try {
+				colaURLsNuevos.put(url);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
