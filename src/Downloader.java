@@ -26,7 +26,7 @@ public class Downloader implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 
-		String recString;
+		String recString = "";
 		while (true) {
 			try {
 				// leer cosa a descargar de la cola
@@ -69,7 +69,6 @@ public class Downloader implements Runnable {
 						monitor.agregarCSSDescargado();
 					}
 				}
-
 				// avisar monitor
 				monitor.restarDescargandoRec();
 
@@ -79,6 +78,7 @@ public class Downloader implements Runnable {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				System.out.println("No se pudo descargar "+recString);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

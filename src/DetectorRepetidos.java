@@ -15,11 +15,11 @@ public class DetectorRepetidos implements Runnable {
 	private LinkedBlockingQueue<String[]> busMonitor;
 	private String fileNameURLs;
 	
-	public DetectorRepetidos(LinkedBlockingQueue<String> colaEntrante,LinkedBlockingQueue<String> colaSaliente,LinkedBlockingQueue<String[]> colaStatus){
+	public DetectorRepetidos(String urlsPath,LinkedBlockingQueue<String> colaEntrante,LinkedBlockingQueue<String> colaSaliente,LinkedBlockingQueue<String[]> colaStatus){
 		colaURLsEntrantes = colaEntrante;
 		colaURLsNuevos = colaSaliente;
 		busMonitor = colaStatus;
-		fileNameURLs = "urls";
+		fileNameURLs = urlsPath;
 	}
 	
 	@Override

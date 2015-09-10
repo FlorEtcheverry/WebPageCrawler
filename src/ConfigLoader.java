@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -12,6 +13,7 @@ public class ConfigLoader {
 	private int cantDownloaders;
 	private String downloadsPath;
 	private String statsPath;
+	private String urlsPath;
 	
 	public ConfigLoader(){
 		leerArch();
@@ -30,6 +32,7 @@ public class ConfigLoader {
 			cantDownloaders = Integer.parseInt(lines.get(3));
 			downloadsPath = lines.get(4);
 			statsPath = lines.get(5);
+			urlsPath = lines.get(6);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -63,8 +66,37 @@ public class ConfigLoader {
 		return statsPath;
 	}
 	
+	public String getURLsRepPath(){
+		return urlsPath;
+	}
+	
 	private void flush(){
-		//TODO borrar directorios y files creados
+		//borrar directorios y files creados
+		try {
+			System.out.println("Borrando archivos descargados anteriormente.");
+			deleteFolder(new File(downloadsPath));
+			System.out.println("Archivos borrados.");
+			System.out.println("Borrando archivos de estadísticas y URLs analizadas.");
+			deleteFolder(new File(statsPath));
+			deleteFolder(new File(urlsPath));
+			System.out.println("Borrado finalizado.");
+		} catch (Exception e) {
+			System.out.println("No se pudieron borrar todos los archivos");
+		}
+	}
+	
+	private void deleteFolder(File folder) throws Exception {
+		File[] files = folder.listFiles();
+		if (files!=null){
+			for (File f: files) {
+				if (f.isDirectory()) {
+					deleteFolder(f);
+				} else {
+					f.delete();
+				}
+			}
+		}
+		folder.delete();
 	}
 
 }

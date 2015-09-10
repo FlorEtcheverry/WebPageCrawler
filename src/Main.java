@@ -42,7 +42,7 @@ public class Main {
 		
 		//ejecutar threads
 		for (int i=0;i<conf.getCantDetectoresRep();i++){
-			poolDetectores.execute(new DetectorRepetidos(colaURLsARevisar, colaURLsRevisados, colaMonitor));
+			poolDetectores.execute(new DetectorRepetidos(conf.getURLsRepPath(),colaURLsARevisar, colaURLsRevisados, colaMonitor));
 		}
 		
 		for (int i=0;i<conf.getCantGetters();i++){
@@ -71,6 +71,7 @@ public class Main {
 		if (args.length != 1) {
 			System.out.println("Error, el unico parametro es la URL.");
 		}
+		System.out.println("URL recibido para analizar: "+args[0]);
 		return args[0];
 	}
 

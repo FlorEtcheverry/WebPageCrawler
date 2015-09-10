@@ -19,12 +19,20 @@ public abstract class ResourceFinder {
 	
 	//Deja la url con protocolo. (Para links relativos)
 	protected String cleanURL(String urlActual,String resto){
+		if (urlActual.equals("www.fi.uba.ar")||resto.equals("www.fi.uba.ar")){
+			System.out.println("ACTUAL "+urlActual);
+			System.out.println("RESTO "+resto);
+		}
 		String urlFinal = urlActual;
 		//Pattern p = Pattern.compile("(http(s?):\\/\\/)[^\\s]*");
 		Pattern p = Pattern.compile("(https?):\\/\\/[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
 		Matcher m = p.matcher(resto);
 		if (m.find()){
+			if (urlActual.equals("www.fi.uba.ar")||resto.equals("www.fi.uba.ar")){
+				System.out.println("tiene http!!!!!??? "+resto);
+			}
 			return resto;
+			
 		}
 		p = Pattern.compile("^((.*))\\/[^\\/]+\\.[^\\/\\.]+$");
 		m = p.matcher(urlActual);

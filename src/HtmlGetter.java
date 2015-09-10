@@ -22,11 +22,16 @@ public class HtmlGetter implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		while (true){
+			
+			//lee url de la cola
+			String url = "";
 			try {
-				
-				//lee url de la cola
-				String url = colaURLsNuevos.take();
-				
+				url = colaURLsNuevos.take();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			try{
 				//avisar al monitor
 				MonitorMessager monitor = new MonitorMessager(busMonitor);
 				monitor.agregarObteniendoHTML();
@@ -57,6 +62,7 @@ public class HtmlGetter implements Runnable {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				System.out.println("No se pudo obtener el html de "+url);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
