@@ -10,9 +10,9 @@ public class HtmlGetter implements Runnable {
 	
 	private LinkedBlockingQueue<String> colaURLsNuevos;
 	private LinkedBlockingQueue<String[]> colaHTMLAnalizar;
-	private LinkedBlockingQueue<String> busMonitor;
+	private LinkedBlockingQueue<String[]> busMonitor;
 	
-	public HtmlGetter(LinkedBlockingQueue<String> colaEntrante,LinkedBlockingQueue<String[]> colaSaliente,LinkedBlockingQueue<String> colaEventos){
+	public HtmlGetter(LinkedBlockingQueue<String> colaEntrante,LinkedBlockingQueue<String[]> colaSaliente,LinkedBlockingQueue<String[]> colaEventos){
 		colaURLsNuevos = colaEntrante;
 		colaHTMLAnalizar = colaSaliente;
 		busMonitor = colaEventos;
@@ -27,10 +27,15 @@ public class HtmlGetter implements Runnable {
 				//lee url de la cola
 				String url = colaURLsNuevos.take();
 				
+				//avisar al monitor
+				MonitorMessager monitor = new MonitorMessager(busMonitor);
+				monitor.agregarObteniendoHTML();
+				
 				//obtener string html
 				String html = "";
 				URL urlObj = new URL(url);
-				BufferedReader in = new BufferedReader(new InputStreamReader(urlObj.openStream()));
+				BufferedReader in = new BufferedReader(
+						new InputStreamReader(urlObj.openStream()));
 		        String inputLine;
 		        while ((inputLine = in.readLine()) != null){
 		            html = html + inputLine;
@@ -42,6 +47,9 @@ public class HtmlGetter implements Runnable {
 				page[0] = url;
 				page[1] = html;
 				colaHTMLAnalizar.put(page);
+				
+				//avisar al monitor
+				monitor.restarObtenienoHTML();
 				
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block

@@ -12,11 +12,13 @@ public class DetectorRepetidos implements Runnable {
 
 	private LinkedBlockingQueue<String> colaURLsEntrantes;
 	private LinkedBlockingQueue<String> colaURLsNuevos;
+	private LinkedBlockingQueue<String[]> busMonitor;
 	private String fileNameURLs;
 	
-	public DetectorRepetidos(LinkedBlockingQueue<String> colaEntrante,LinkedBlockingQueue<String> colaSaliente){
+	public DetectorRepetidos(LinkedBlockingQueue<String> colaEntrante,LinkedBlockingQueue<String> colaSaliente,LinkedBlockingQueue<String[]> colaStatus){
 		colaURLsEntrantes = colaEntrante;
 		colaURLsNuevos = colaSaliente;
+		busMonitor = colaStatus;
 		fileNameURLs = "urls";
 	}
 	
@@ -33,6 +35,10 @@ public class DetectorRepetidos implements Runnable {
 				boolean rep = analizarRepetido(url);
 				
 				if (!rep) {
+					//avisar monitor
+					MonitorMessager monitor = new MonitorMessager(busMonitor);
+					monitor.agregarLinkAnalizado();
+					
 					//poner en la cola
 					colaURLsNuevos.put(url);
 				}
