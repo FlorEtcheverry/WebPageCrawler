@@ -23,7 +23,7 @@ public class ConfigLoader {
 	private void leerArch(){
 		try {
 			List<String> lines = Files.readAllLines(
-				Paths.get("/home/knoppix/wc/config.ini"),
+				Paths.get("config.ini"),
 				Charset.defaultCharset()
 				);
 			cantDetectoresRep = Integer.parseInt(lines.get(0));

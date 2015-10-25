@@ -86,15 +86,21 @@ public class Downloader implements Runnable {
 		String fileName,
 		ReadableByteChannel rbc
 		) throws IOException {
+		
+		File arch = new File(path, fileName);
+		try {
 			File dir = new File(path);
 			if (!dir.exists()) {
 				dir.mkdirs();
 			}
-			File arch = new File(path, fileName);
-			boolean exist = arch.createNewFile();
+			//boolean exist = arch.createNewFile();
 			FileOutputStream fos = new FileOutputStream(arch);
 			fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 			fos.close();
-			return exist;
+			return true;
+		} catch (IOException e){
+			arch.delete();
+			return false;
+		}
 		}
 }
